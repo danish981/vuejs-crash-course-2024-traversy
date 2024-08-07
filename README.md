@@ -1,29 +1,17 @@
 # vuejs-crash-course-2024-travery
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+Learning vuejs 3 by watching brad traversy vuejs 3 2024 crash course
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Customize configuration
+here is the video link
+https://youtu.be/VeNfHj6MhgA
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+#### the topic the currently im working on
+boilerplate clean up - the video transcript 
 
-```sh
-npm install
-```
 
-### Compile and Hot-Reload for Development
+the video link with current timestamp
+https://youtu.be/VeNfHj6MhgA?t=1590
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
