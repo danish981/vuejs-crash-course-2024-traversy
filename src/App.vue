@@ -1,6 +1,6 @@
-<!-- Vue Component with Validations and Feedback -->
+<!-- Vue Component with API Country Validation -->
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 // Data properties
 const name = ref("John Doe");
@@ -16,24 +16,41 @@ const countries = ref([
 
 const newCountry = ref("");
 const errorMessage = ref("");
+const validCountries = ref([]);
 
 // Function to validate and add a new country
 const addNewCountry = () => {
-  const isValid = validateCountry(newCountry.value);
-  if (isValid) {
-    countries.value.push(newCountry.value);
-    newCountry.value = "";
-    errorMessage.value = "";
+  const isValidName = validateCountryName(newCountry.value);
+  if (isValidName) {
+    const isRealCountry = validCountries.value.includes(newCountry.value);
+    if (isRealCountry) {
+      countries.value.push(newCountry.value);
+      newCountry.value = "";
+      errorMessage.value = "";
+    } else {
+      errorMessage.value = "This is not a valid country name.";
+    }
   } else {
     errorMessage.value = "Country name can only contain letters and spaces.";
   }
 };
 
-// Function to validate the country name
-const validateCountry = (country) => {
+// Function to validate the country name (letters and spaces only)
+const validateCountryName = (country) => {
   const regex = /^[A-Za-z\s]+$/;
   return regex.test(country.trim());
 };
+
+// Fetch the list of valid countries on component mount
+onMounted(async () => {
+  try {
+    const response = await fetch("https://restcountries.com/v3.1/all?fields=name");
+    const data = await response.json();
+    validCountries.value = data.map((country) => country.name.common);
+  } catch (error) {
+    console.error("Failed to fetch countries:", error);
+  }
+});
 
 // Toggle status between 'Active' and 'Inactive'
 const updateStatus = () => {
@@ -63,9 +80,7 @@ const sortCountries = () => {
     <p class="status">
       The current status is: <span :class="status">{{ status }}</span>
     </p>
-    <a class="google-link" :href="link" target="_blank"
-      >Click me to go to Google</a
-    >
+    <a class="google-link" :href="link" target="_blank">Click me to go to Google</a>
 
     <ul class="countries-list">
       <li v-for="country in countries" :key="country">{{ country }}</li>
@@ -90,7 +105,7 @@ const sortCountries = () => {
 /* General Styling */
 * {
   box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
 }
