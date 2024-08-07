@@ -1,7 +1,8 @@
-<!-- Vue Component with Enhanced Styling -->
+<!-- Vue Component with Validations and Feedback -->
 <script setup>
 import { ref } from "vue";
 
+// Data properties
 const name = ref("John Doe");
 const link = ref("https://www.google.com");
 const status = ref("Active");
@@ -14,18 +15,32 @@ const countries = ref([
 ]);
 
 const newCountry = ref("");
+const errorMessage = ref("");
 
+// Function to validate and add a new country
 const addNewCountry = () => {
-  if (newCountry.value.trim() !== "") {
+  const isValid = validateCountry(newCountry.value);
+  if (isValid) {
     countries.value.push(newCountry.value);
     newCountry.value = "";
+    errorMessage.value = "";
+  } else {
+    errorMessage.value = "Country name can only contain letters and spaces.";
   }
 };
 
+// Function to validate the country name
+const validateCountry = (country) => {
+  const regex = /^[A-Za-z\s]+$/;
+  return regex.test(country.trim());
+};
+
+// Toggle status between 'Active' and 'Inactive'
 const updateStatus = () => {
   status.value = status.value === "Active" ? "Inactive" : "Active";
 };
 
+// Shuffle the list of countries
 const shuffleCountries = () => {
   for (let i = countries.value.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -36,6 +51,7 @@ const shuffleCountries = () => {
   }
 };
 
+// Sort the list of countries alphabetically
 const sortCountries = () => {
   countries.value.sort();
 };
@@ -59,6 +75,7 @@ const sortCountries = () => {
       <label for="country">Add a new country</label>
       <input type="text" id="country" name="country" v-model="newCountry" />
       <button type="submit">Submit</button>
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     </form>
 
     <div class="buttons">
@@ -181,6 +198,13 @@ h2 {
 
 .country-form button:hover {
   background: #1565c0;
+}
+
+/* Error Message Styling */
+.error-message {
+  color: #f44336;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 /* Buttons Styling */
