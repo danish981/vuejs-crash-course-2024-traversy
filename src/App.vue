@@ -1,4 +1,3 @@
-<!-- Vue Component with API Country Validation -->
 <script setup>
 import { ref, onMounted } from "vue";
 
@@ -18,7 +17,6 @@ const newCountry = ref("");
 const errorMessage = ref("");
 const validCountries = ref([]);
 
-// Function to validate and add a new country
 // Function to validate and add a new country
 const addNewCountry = () => {
   const isValidName = validateCountryName(newCountry.value);
@@ -42,6 +40,10 @@ const addNewCountry = () => {
   }
 };
 
+const deleteCountry = (index) => {
+  countries.value.splice(index, 1);
+};
+
 // Function to validate the country name (letters and spaces only)
 const validateCountryName = (country) => {
   const regex = /^[A-Za-z\s]+$/;
@@ -51,7 +53,9 @@ const validateCountryName = (country) => {
 // Fetch the list of valid countries on component mount
 onMounted(async () => {
   try {
-    const response = await fetch("https://restcountries.com/v3.1/all?fields=name");
+    const response = await fetch(
+      "https://restcountries.com/v3.1/all?fields=name"
+    );
     const data = await response.json();
     validCountries.value = data.map((country) => country.name.common);
   } catch (error) {
@@ -90,7 +94,10 @@ const sortCountries = () => {
     <a class="google-link" :href="link" target="_blank">Click me to go to Google</a>
 
     <ul class="countries-list">
-      <li v-for="country in countries" :key="country">{{ country }}</li>
+      <li v-for="(country, index) in countries" :key="country" class="country-item">
+        <span>{{ country }}</span>
+        <button @click="deleteCountry(index)" class="delete-button">X</button>
+      </li>
     </ul>
 
     <form @submit.prevent="addNewCountry" class="country-form">
@@ -122,8 +129,8 @@ const sortCountries = () => {
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
-  background: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #f1f1f1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   text-align: center;
 }
@@ -132,7 +139,7 @@ const sortCountries = () => {
 h2 {
   font-size: 2em;
   margin-bottom: 20px;
-  color: #333;
+  color: #2c3e50;
 }
 
 /* Status Styling */
@@ -142,12 +149,12 @@ h2 {
 }
 
 .status span.Active {
-  color: #4caf50;
+  color: #27ae60;
   font-weight: bold;
 }
 
 .status span.Inactive {
-  color: #f44336;
+  color: #e74c3c;
   font-weight: bold;
 }
 
@@ -155,34 +162,54 @@ h2 {
 .google-link {
   display: inline-block;
   margin-bottom: 20px;
-  color: #1e88e5;
+  color: #2980b9;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s;
 }
 
 .google-link:hover {
-  color: #0d47a1;
+  color: #1b4f72;
 }
 
 /* Country List Styling */
 .countries-list {
   list-style: none;
   margin-bottom: 20px;
+  padding: 0;
 }
 
-.countries-list li {
-  background: #ffeb3b;
-  padding: 8px;
-  color : black !important;
-  font-weight : bold;
+.country-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f39c12;
+  padding: 10px 15px;
+  color: #fff;
+  font-weight: bold;
   margin: 5px 0;
   border-radius: 5px;
-  transition: transform 0.3s;
+  transition: transform 0.3s, background 0.3s;
 }
 
-.countries-list li:hover {
+.country-item:hover {
   transform: scale(1.05);
+  background: #e67e22;
+}
+
+.delete-button {
+  background: #c0392b;
+  border: none;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.delete-button:hover {
+  background: #a93226;
 }
 
 /* Form Styling */
@@ -199,32 +226,38 @@ h2 {
 }
 
 .country-form input {
-  padding: 8px;
-  border: 2px solid #1e88e5;
+  padding: 10px;
+  border: 2px solid #3498db;
   border-radius: 5px;
   margin-bottom: 10px;
   width: 80%;
   font-size: 1em;
+  outline: none;
+}
+
+.country-form input:focus {
+  border-color: #1abc9c;
 }
 
 .country-form button {
   padding: 10px 20px;
   border: none;
-  background: #1e88e5;
+  background: #2980b9;
   color: white;
   font-size: 1em;
   cursor: pointer;
   border-radius: 5px;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s;
 }
 
 .country-form button:hover {
-  background: #1565c0;
+  background: #1b4f72;
+  transform: scale(1.05);
 }
 
 /* Error Message Styling */
 .error-message {
-  color: #f44336;
+  color: #e74c3c;
   margin-top: 10px;
   font-weight: bold;
 }
@@ -240,16 +273,17 @@ h2 {
   padding: 10px 20px;
   margin: 5px 0;
   border: none;
-  background: #4caf50;
+  background: #27ae60;
   color: white;
   font-size: 1em;
   cursor: pointer;
   border-radius: 5px;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s;
   width: 80%;
 }
 
 .buttons button:hover {
-  background: #388e3c;
+  background: #1d8348;
+  transform: scale(1.05);
 }
 </style>
