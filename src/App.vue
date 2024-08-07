@@ -1,54 +1,40 @@
 
-<!-- compositoin api with setup function -->
+<!-- composition API with script setup -->
 
-<script>
+<script setup>
 import { ref } from "vue";
 
-export default {
-  setup() {
-    const name = ref("John doe");
-    const link = ref("https://www.google.com");
-    const status = ref("Active");
-    const countries = ref([
-      "Pakistan",
-      "Bangladesh",
-      "Afghanistan",
-      "Turkey",
-      "Azarbaijan",
-    ]);
+const name = ref("John doe");
+const link = ref("https://www.google.com");
+const status = ref("Active");
+const countries = ref([
+  "Pakistan",
+  "Bangladesh",
+  "Afghanistan",
+  "Turkey",
+  "Azarbaijan",
+]);
 
-    const updateStatus = () => {
-      if (status.value === "Active") {
-        status.value = "Inactive";
-      } else if (status.value === "Inactive") {
-        status.value = "Active";
-      }
-    };
+const updateStatus = () => {
+  if (status.value === "Active") {
+    status.value = "Inactive";
+  } else if (status.value === "Inactive") {
+    status.value = "Active";
+  }
+};
 
-    const shuffleCountries = () => {
-      for (let i = countries.value.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [countries.value[i], countries.value[j]] = [
-          countries.value[j],
-          countries.value[i],
-        ];
-      }
-    };
+const shuffleCountries = () => {
+  for (let i = countries.value.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [countries.value[i], countries.value[j]] = [
+      countries.value[j],
+      countries.value[i],
+    ];
+  }
+};
 
-    const sortCountries = () => {
-      countries.value.sort();
-    };
-
-    return {
-      name,
-      link,
-      status,
-      countries,
-      updateStatus,
-      shuffleCountries,
-      sortCountries,
-    };
-  },
+const sortCountries = () => {
+  countries.value.sort();
 };
 </script>
 
@@ -66,6 +52,7 @@ export default {
     <li v-for="country in countries" :key="country">{{ country }}</li>
   </ul>
 
+  <br />
   <button @click="updateStatus">CLick to change status</button>
 
   <br />
