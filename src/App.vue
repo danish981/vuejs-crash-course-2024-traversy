@@ -19,14 +19,21 @@ const errorMessage = ref("");
 const validCountries = ref([]);
 
 // Function to validate and add a new country
+// Function to validate and add a new country
 const addNewCountry = () => {
   const isValidName = validateCountryName(newCountry.value);
   if (isValidName) {
     const isRealCountry = validCountries.value.includes(newCountry.value);
+    const isDuplicate = countries.value.includes(newCountry.value);
+
     if (isRealCountry) {
-      countries.value.push(newCountry.value);
-      newCountry.value = "";
-      errorMessage.value = "";
+      if (!isDuplicate) {
+        countries.value.push(newCountry.value);
+        newCountry.value = "";
+        errorMessage.value = "";
+      } else {
+        errorMessage.value = "This country is already in the list.";
+      }
     } else {
       errorMessage.value = "This is not a valid country name.";
     }
