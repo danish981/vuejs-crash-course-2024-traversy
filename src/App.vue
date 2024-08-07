@@ -1,33 +1,53 @@
+
+<!-- compositoin api with setup function -->
+
 <script>
+import { ref } from "vue";
+
 export default {
-  data() {
-    return {
-      name: "John doe",
-      link: "https://www.google.com",
-      status: "Active",
-      countries: [
-        "Pakistan",
-        "Bangladesh",
-        "Afghanistan",
-        "Turkey",
-        "Azarbaijan",
-      ],
+  setup() {
+    const name = ref("John doe");
+    const link = ref("https://www.google.com");
+    const status = ref("Active");
+    const countries = ref([
+      "Pakistan",
+      "Bangladesh",
+      "Afghanistan",
+      "Turkey",
+      "Azarbaijan",
+    ]);
+
+    const updateStatus = () => {
+      if (status.value === "Active") {
+        status.value = "Inactive";
+      } else if (status.value === "Inactive") {
+        status.value = "Active";
+      }
     };
-  },
-  methods: {
-    updateStatus() {
-      if (this.status === "Active") {
-        this.status = "Inactive";
-      } else if (this.status === "Inactive") {
-        this.status = "Active";
-      }
-    },
-    shuffleCountries() {
-      for (let i = this.countries.length - 1; i > 0; i--) {
+
+    const shuffleCountries = () => {
+      for (let i = countries.value.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [this.countries[i], this.countries[j]] = [this.countries[j], this.countries[i]];
+        [countries.value[i], countries.value[j]] = [
+          countries.value[j],
+          countries.value[i],
+        ];
       }
-    },
+    };
+
+    const sortCountries = () => {
+      countries.value.sort();
+    };
+
+    return {
+      name,
+      link,
+      status,
+      countries,
+      updateStatus,
+      shuffleCountries,
+      sortCountries,
+    };
   },
 };
 </script>
@@ -48,11 +68,13 @@ export default {
 
   <button @click="updateStatus">CLick to change status</button>
 
-  <br>
+  <br />
 
-  <button @click="shuffleCountries" >click to shuffle countries</button>
+  <button @click="shuffleCountries">click to shuffle countries</button>
 
+  <br />
 
+  <button @click="sortCountries">click to sort the countries</button>
 </template>
 
 
