@@ -10,7 +10,7 @@ https://youtu.be/VeNfHj6MhgA
 deleting a country from the reactive array list
 
 the video link with current timestamp
-https://youtu.be/VeNfHj6MhgA?t=2798
+https://youtu.be/VeNfHj6MhgA?t=2864
 
 **How you can use the fetch**
 _Here is how you can use fetch and get result on API response_
